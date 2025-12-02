@@ -35,9 +35,9 @@ log/*
 *.pkl
 
 example/*
-!example/
-!example/trainset_example/
-!example/trainset_example/fps25_mp4/
-example/trainset_example/fps25_mp4/*
-!example/trainset_example/fps25_mp4/*.mp4
-!example/get_data_info_json_for_trainset_example.py
+# !example/
+# !example/trainset_example/
+# !example/trainset_example/fps25_mp4/
+# example/trainset_example/fps25_mp4/*
+# !example/trainset_example/fps25_mp4/*.mp4
+# !example/get_data_info_json_for_trainset_example.py

@@ -26,9 +26,11 @@ def check_one_v2(data, N_thre=81):
     for k, v in data.items():
 
         if not os.path.isfile(v):
-            return False, None
+            # return False, None
+            continue
         
         n = np.load(v).shape[0]
+        print(f"{k=},{v=},{n=}")
         ns.append(n)
 
     N = min(ns)
@@ -53,37 +55,37 @@ def gather_and_filter_data_list_for_s2_v2(
     """
     lst = []
     num_v = len(data_list_dict[aud_feat_name])
+    print(f"{num_v=}")
     for i in trange(num_v):
-        try:
-            data = {
-                'mtn': data_list_dict['LP_npy_list'][i],
-                'aud': data_list_dict[aud_feat_name][i],
-            }
-            if use_emo:
-                data['emo'] = data_list_dict['emo_npy_list'][i]
-            if use_eye_open:
-                data['eye_open'] = data_list_dict['eye_open_npy_list'][i]
-            if use_eye_ball:
-                data['eye_ball'] = data_list_dict['eye_ball_npy_list'][i]
-            if use_lmk:
-                data['lmk'] = data_list_dict['MP_lmk_npy_list'][i]
+        data = {
+            'mtn': data_list_dict['LP_npy_list'][i],
+            'aud': data_list_dict[aud_feat_name][i],
+        }
+        if use_emo:
+            data['emo'] = data_list_dict['emo_npy_list'][i]
+        if use_eye_open:
+            data['eye_open'] = data_list_dict['eye_open_npy_list'][i]
+        if use_eye_ball:
+            data['eye_ball'] = data_list_dict['eye_ball_npy_list'][i]
+        if use_lmk:
+            data['lmk'] = data_list_dict['MP_lmk_npy_list'][i]
 
-            if flip:
-                for k in ['mtn', 'eye_open', 'eye_ball', 'lmk']:
-                    if k in data:
-                        data[k] = flip_path(data[k])
+        if flip:
+            for k in ['mtn', 'eye_open', 'eye_ball', 'lmk']:
+                if k in data:
+                    data[k] = flip_path(data[k])
+        flag, N = check_one_v2(data)
+        print(f"{flag=},{N=}")
+        if not flag:
+            continue
 
-            flag, N = check_one_v2(data)
-            if not flag:
-                continue
+        data['frame_num'] = N
+        lst.append(data)
+        print(lst)
+        # except:
+        #     traceback.print_exc()
 
-            data['frame_num'] = N
-
-            lst.append(data)
-        except:
-            traceback.print_exc()
-
-    print(len(lst))
+    print(f"{len(lst)=}")
     if save_json:
         dump_json(lst, save_json)
     return lst        
@@ -122,7 +124,8 @@ def main():
     assert opt.output_data_json
 
     data_info = load_json(opt.input_data_json)
-
+    print(data_info.keys())
+    print(opt)
     if opt.dataset_version in ['v2']:
         if opt.with_flip:
             lst = gather_and_filter_data_list_for_s2_v2(

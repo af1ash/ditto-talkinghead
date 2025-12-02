@@ -52,11 +52,8 @@ class EmoRec:
                 break
             if fid % step == 0:
                 im_rbg = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                try:
-                    emo_scores = self._run_one_image(im_rbg)
-                    res_dict[fid] = emo_scores
-                except:
-                    pass
+                emo_scores = self._run_one_image(im_rbg)
+                res_dict[fid] = emo_scores
 
             fid += 1
 
@@ -129,6 +126,7 @@ def process_one_video(video, emo_npy, ER: EmoRec, run_fps=5, ori_fps=25):
     all_emo_dict = interpolate_missing_frames(frame_num, emo_frame_dict)
 
     emo_arr = np.stack([all_emo_dict[i] for i in range(frame_num)], 0)  # [n, 8]
+    print(f"{emo_npy}")
     if emo_npy:
         os.makedirs(os.path.dirname(emo_npy), exist_ok=True)
         np.save(emo_npy, emo_arr)
@@ -141,8 +139,9 @@ def process_data_list(video_list, emo_npy_list):
 
     for video, emo_npy in tzip(video_list, emo_npy_list):
         try:
-            if not os.path.isfile(emo_npy):
-                process_one_video(video, emo_npy, ER=ER)
+            print(f"{video=},{emo_npy=}")
+            # if not os.path.isfile(emo_npy):
+            process_one_video(video, emo_npy, ER=ER)
         except:
             traceback.print_exc()
 
