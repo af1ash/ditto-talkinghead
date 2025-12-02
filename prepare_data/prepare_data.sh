@@ -1,13 +1,14 @@
 set -euo pipefail
 # set -x
 
-conda activate ditto_train
+# conda activate ditto_train
 
 SECONDS=0
 
-DITTO_ROOT_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
+# DITTO_ROOT_DIR="$(dirname "$(dirname "$(readlink -f "$0")")")"
+DITTO_ROOT_DIR="/Users/lixiaobing/workspace/ditto-talkinghead"
 
-DITTO_PYTORCH_PATH="${DITTO_ROOT_DIR}/checkpoints/ditto_pytorch"
+DITTO_PYTORCH_PATH="${DITTO_ROOT_DIR}/data/checkpoints/ditto_pytorch"
 HUBERT_ONNX="${DITTO_PYTORCH_PATH}/aux_models/hubert_streaming_fix_kv.onnx"
 MP_FACE_LMK_TASK="${DITTO_PYTORCH_PATH}/aux_models/face_landmarker.task"
 

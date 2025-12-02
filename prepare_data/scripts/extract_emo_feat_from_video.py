@@ -16,7 +16,7 @@ from utils.utils import load_json
 
 
 class EmoRec:
-    def __init__(self, hse_name="enet_b2_8", device='cuda'):
+    def __init__(self, hse_name="enet_b2_8", device='cpu'):
         from facenet_pytorch import MTCNN
         from hsemotion.facial_emotions import HSEmotionRecognizer
         self.mtcnn = MTCNN(keep_all=False, post_process=False, min_face_size=40, device=device)
