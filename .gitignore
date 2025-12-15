@@ -35,6 +35,6 @@ log/*
 *.jpeg
 
 prepare_data
-
+example/*
 !example/audio.wav
 !example/image.png
