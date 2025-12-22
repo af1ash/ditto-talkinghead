@@ -3,6 +3,7 @@ import queue
 import numpy as np
 import traceback
 from tqdm import tqdm
+import time
 
 from core.atomic_components.avatar_registrar import AvatarRegistrar, smooth_x_s_info_lst
 from core.atomic_components.condition_handler import ConditionHandler, _mirror_index
@@ -41,6 +42,8 @@ class StreamSDK:
         self.putback = PutBack()
 
         self.wav2feat = Wav2Feat(**wav2feat_cfg)
+        self.start_time = None
+        self.count = 0
 
     def _merge_kwargs(self, default_kwargs, run_kwargs):
         for k, v in default_kwargs.items():
@@ -266,6 +269,16 @@ class StreamSDK:
             res_frame_rgb = item
             self.writer(res_frame_rgb, fmt="rgb")
             self.writer_pbar.update()
+            self.count += 1
+            # print(f"{self.start_time=}")
+            if self.start_time is not None:
+                cast = time.perf_counter() - self.start_time
+                # print(f"{cast=}")
+                if cast > 0:
+                    gen_fps = self.count / cast
+                else:
+                    gen_fps = None
+                print(f"{self.count=},{gen_fps=}")
 
     def putback_worker(self):
         try:
@@ -368,6 +381,8 @@ class StreamSDK:
             except queue.Empty:
                 continue
 
+            if self.start_time is None:
+                self.start_time = time.perf_counter()
             if item is None:
                 break
 
