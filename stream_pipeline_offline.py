@@ -96,9 +96,12 @@ class StreamSDK:
         self.smo_k_s = kwargs.get('smo_k_s', 13)
 
         # -- condition_handler: ECS --
-        self.emo = kwargs.get("emo", 4)    # int | [int] | [[int]] | numpy
-        self.eye_f0_mode = kwargs.get("eye_f0_mode", False)    # for video
-        self.ch_info = kwargs.get("ch_info", None)    # dict of np.ndarray
+        # self.emo = kwargs.get("emo", 4)    # int | [int] | [[int]] | numpy 'Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise', 'Contempt'
+        # self.eye_f0_mode = kwargs.get("eye_f0_mode", False)    # for video
+        # self.ch_info = kwargs.get("ch_info", None)    # dict of np.ndarray
+        self.emo = 4 
+        self.eye_f0_mode = None
+        self.ch_info = None
 
         # -- audio2motion: setup --
         self.overlap_v2 = kwargs.get("overlap_v2", 10)
@@ -116,12 +119,15 @@ class StreamSDK:
         self.drive_eye = kwargs.get("drive_eye", None)    # None: true4image, false4video
         self.delta_eye_arr = kwargs.get("delta_eye_arr", None)
         self.delta_eye_open_n = kwargs.get("delta_eye_open_n", 0)
-        self.fade_type = kwargs.get("fade_type", "")    # "" | "d0" | "s"
+        # self.fade_type = kwargs.get("fade_type", "s")    # "" | "d0" | "s"
+        self.fade_type = "d0"    # "" | "d0" | "s"
         self.fade_out_keys = kwargs.get("fade_out_keys", ("exp",))
         self.flag_stitching = kwargs.get("flag_stitching", True)
 
-        self.ctrl_info = kwargs.get("ctrl_info", dict())
-        self.overall_ctrl_info = kwargs.get("overall_ctrl_info", dict())
+        # self.ctrl_info = kwargs.get("ctrl_info", dict())
+        # self.overall_ctrl_info = kwargs.get("overall_ctrl_info", dict())
+        self.ctrl_info = dict()
+        self.overall_ctrl_info = dict()
         """
         ctrl_info: list or dict
             {
@@ -271,14 +277,14 @@ class StreamSDK:
             self.writer_pbar.update()
             self.count += 1
             # print(f"{self.start_time=}")
-            if self.start_time is not None:
-                cast = time.perf_counter() - self.start_time
-                # print(f"{cast=}")
-                if cast > 0:
-                    gen_fps = self.count / cast
-                else:
-                    gen_fps = None
-                print(f"{self.count=},{gen_fps=}")
+            # if self.start_time is not None:
+            #     cast = time.perf_counter() - self.start_time
+            #     # print(f"{cast=}")
+            #     if cast > 0:
+            #         gen_fps = self.count / cast
+            #     else:
+            #         gen_fps = None
+            #     print(f"{self.count=},{gen_fps=}")
 
     def putback_worker(self):
         try:
