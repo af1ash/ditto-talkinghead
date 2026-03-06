@@ -41,6 +41,12 @@ Ant Group
 * [2024.11.29] 🔥 Our [paper](https://arxiv.org/abs/2411.19509) is in public on arxiv.
 
  
+ ## 🔍 Overview
+<!-- This is the **train branch**, containing code for **training the model**. For inference code, please switch to the [`main`](https://github.com/antgroup/ditto-talkinghead) branch. -->
+
+This is the **inference branch**. For training code, please switch to the [`train`](https://github.com/antgroup/ditto-talkinghead/tree/train) branch.
+
+
 
 ## 🔍 Overview
 This is the **train branch**, containing code for **training the model**. For inference code, please switch to the [`main`](https://github.com/antgroup/ditto-talkinghead) branch.

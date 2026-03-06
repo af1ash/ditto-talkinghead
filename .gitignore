@@ -41,3 +41,7 @@ example/*
 # example/trainset_example/fps25_mp4/*
 # !example/trainset_example/fps25_mp4/*.mp4
 # !example/get_data_info_json_for_trainset_example.py
+prepare_data
+
+!example/audio.wav
+!example/image.png
